@@ -1,32 +1,68 @@
-var result = Math.floor(Math.random() * 101) + 19;
-var losses;
-var wins;
+var result;
+var losses = 0;
+var wins = 0;
 var counter = 0;
 
 
-$("#Goal").html(result);
+$("#Lost").html("Losess: " + losses);
+$("#Win").html("Wins: " + wins);
 
-for (var i = 0; i < 4; i++) {
+function setGame () {
+    $(".crystals").empty();
 
-    var randomNum = Math.floor(1 + Math.random() * 12);
     
-    var loneCrystal = $("<div>");
 
-    loneCrystal.attr({
-        "class": 'crystal',
-        "data-random": randomNum
-    });
+    result = Math.floor(Math.random() * 101) + 19;
+    $("#Goal").html(result);
 
-    $(".crystals").append(loneCrystal);
+
+    for (var i = 0; i < 4; i++) {
+
+        var randomNum = Math.floor(1 + Math.random() * 12);
+        var arrayImages = [
+            "./assets/images/drawn-jinjo.jpg",
+            "./assets/images/green-jinjo.jpg",
+            "./assets/images/grey-jinjo.jpg",
+            "./assets/images/purple-jinjo.jpg"];
+        
+        var loneCrystal = $("<div>");
+
+        loneCrystal.attr({
+            "class": 'crystal',
+            "data-random": randomNum
+        });
+        loneCrystal.css({
+            "background-image": "url('" + arrayImages[i] + "')",
+            "background-size": "cover"
+        });
+
+        $(".crystals").append(loneCrystal);
+    }
+    $("#currentCount").html(counter);
+
 }
 
-$(".crystal").on('click', function() {
+setGame();
+
+$(document).on('click' , ".crystal", function() {
     
 
     var value = parseInt($(this).attr('data-random'));
 
     counter += value;
+    $("#currentCount").html(counter);
 
-    console.log(counter);
+    if (counter > result) {
+        losses++;
+        $("#Lost").html("Losess: " + losses);
+        counter = 0;
+        setGame();
+    }
+    else if (counter === result) {
+        wins++;
+        $("#Win").html("Wins: " + wins);
+        counter = 0;
+        setGame();
+    }
 
 });
