@@ -25,20 +25,21 @@ function setGame () {
             "./assets/images/grey-jinjo.jpg",
             "./assets/images/purple-jinjo.jpg"];
         
-        var loneCrystal = $("<div>");
+        var loneCrystal = $("<button>");
 
         loneCrystal.attr({
             "class": 'crystal',
-            "data-random": randomNum
+            "random-value": randomNum
         });
         loneCrystal.css({
             "background-image": "url('" + arrayImages[i] + "')",
-            "background-size": "cover"
+            "background-size": "cover",
+            "justify-content": "space-between"
         });
 
         $(".crystals").append(loneCrystal);
     }
-    $("#currentCount").html(counter);
+    $("#currentCount").html("Total score: " + counter);
 
 }
 
@@ -47,21 +48,23 @@ setGame();
 $(document).on('click' , ".crystal", function() {
     
 
-    var value = parseInt($(this).attr('data-random'));
+    var value = parseInt($(this).attr('random-value'));
 
     counter += value;
-    $("#currentCount").html(counter);
+    $("#currentCount").html("Total score: " + counter);
 
     if (counter > result) {
         losses++;
         $("#Lost").html("Losess: " + losses);
         counter = 0;
+        $("#message").html("You Lost!");
         setGame();
     }
     else if (counter === result) {
         wins++;
         $("#Win").html("Wins: " + wins);
         counter = 0;
+        $("#message").html("You Won!");
         setGame();
     }
 
